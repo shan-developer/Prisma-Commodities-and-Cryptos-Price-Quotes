@@ -10,7 +10,7 @@ export class AppService {
     return 'CronCount : ' + this.cronCount.toString();
   }
 
-  @Cron('45 * * * * *')
+  @Cron('0 */15 * * * *')
   handleCron() {
     this.cronCount += 1;
   }
