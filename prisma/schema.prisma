@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model commoditiesothers {
+  commoditytype    String   @id
+  price            String
+  changevalue      String
+  changepercentage String
+  lowprice         String
+  highprice        String
+  shorttime        String
+  quotejson        Json
+  createdat        DateTime @db.Timestamp(6)
+  updatedat        DateTime @db.Timestamp(6)
+
+  @@index([createdat], name: "_commoditiesothers_createdat_idx")
+  @@index([updatedat], name: "_commoditiesothers_updatedat_idx")
+  @@map("_commoditiesothers")
+}
+
+model pmquotes {
+  pmtype                 String   @id
+  bid                    String
+  ask                    String
+  low                    String
+  high                   String
+  changevalue            String
+  changepercentage       String
+  month1changevalue      String
+  month1changepercentage String
+  year1changevalue       String
+  year1changepercentage  String
+  year1lowprice          String
+  year1highprice         String
+  longtime               String
+  quotejson              Json
+  createdat              DateTime @db.Timestamp(6)
+  updatedat              DateTime @db.Timestamp(6)
+
+  @@index([createdat], name: "_pmquotes_createdat_idx")
+  @@index([updatedat], name: "_pmquotes_updatedat_idx")
+  @@map("_pmquotes")
+}
