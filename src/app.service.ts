@@ -1,6 +1,5 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { Cron } from '@nestjs/schedule';
 import fetch from 'node-fetch';
 
 type JSONValue =
@@ -24,8 +23,6 @@ export class PrismaService extends PrismaClient
     super();
   }
 
-  cronCount: number = 0;
-
   // getHello(): string {
   //   return 'CronCount : ' + this.cronCount.toString();
   // }
@@ -40,6 +37,11 @@ export class PrismaService extends PrismaClient
 
     let promise = new Promise((resolve, reject) => {
       // setTimeout(() => resolve("done!"), 5000)
+
+      //This `actualPriceRE` Regex will extract all the $xxx.xx format of prices from the extracted HTML content
+      actualPriceRE = new RegExp(
+        /[\+|\-|\$]*[\d\,]*\d+\.\d{1,2}[\%]*/,
+        'ig');
 
       if (assetType == 'Gold') {
         //Live Gold Price[\s\S]+?</html>
@@ -57,11 +59,6 @@ export class PrismaService extends PrismaClient
           /Year Low\"[\s\S]+?<\/span><\/td>/,
           'i',
         );
-
-        //This `actualPriceRE` Regex will extract all the $xxx.xx format of prices from the extracted HTML content
-        actualPriceRE = new RegExp(
-          /[\+|\-|\$]*[\d\,]*\d+\.\d{1,2}[\%]*/,
-          'ig');
 
         async function runGoldAsyncFunction() {
           await Promise.all([
@@ -94,7 +91,7 @@ export class PrismaService extends PrismaClient
 
             }).catch(function (err) {
               // There was an error
-              console.warn('Cannot fetch URL - kitco.com', err);
+              console.warn('Cannot fetch URL - bullionbypost.co.uk', err);
             })
           ]);
           priceMap = {
@@ -128,11 +125,6 @@ export class PrismaService extends PrismaClient
           'i',
         );
 
-        //This `actualPriceRE` Regex will extract all the $xxx.xx format of prices from the extracted HTML content
-        actualPriceRE = new RegExp(
-          /[\+|\-|\$]*[\d\,]*\d+\.\d{1,2}[\%]*/,
-          'ig');
-
         async function runSilverAsyncFunction() {
           await Promise.all([
             fetch('http://www.kitcosilver.com/').then(function (response) {
@@ -164,7 +156,7 @@ export class PrismaService extends PrismaClient
 
             }).catch(function (err) {
               // There was an error
-              console.warn('Cannot fetch URL - kitco.com', err);
+              console.warn('Cannot fetch URL - bullionbypost.co.uk', err);
             })
           ]);
           priceMap = {
@@ -180,6 +172,135 @@ export class PrismaService extends PrismaClient
         }
         runSilverAsyncFunction();
       }
+
+      if (assetType == 'CrudeOil' || 'USD') {
+        productPriceSectionRE = new RegExp(
+          /<div id="quotes_summary_current_data"[\s\S]+?<div class="float_lang_base_2/,
+          'i'
+        );
+        var URL: string;
+        var idxLow, idxHigh: number;
+
+        switch (assetType) {
+          case 'CrudeOil': {
+            URL = 'https://www.investing.com/commodities/crude-oil';
+            idxLow = 5;
+            idxHigh = 6;
+
+            break;
+          }
+          case 'USD': {
+            URL = 'https://www.investing.com/indices/usdollar';
+            idxLow = 4;
+            idxHigh = 5;
+            break;
+          }
+        }
+        async function runCommdAsyncFunction() {
+          await fetch(URL).then(function (response) {
+            // The API call was successful!
+            return response.text();
+          }).then(function (html) {
+            // This is the HTML from our response as a text string
+            //console.log(html);
+            priceSection = productPriceSectionRE.exec(html)[0];
+            priceArray = priceSection.match(actualPriceRE);
+            console.log(priceArray);
+          }).catch(function (err) {
+            // There was an error
+            console.warn('Cannot fetch URL - $URL', err);
+          });
+
+          priceMap = {
+            "price": priceArray[0],
+            "change": priceArray[1] + ' | ' + priceArray[2],
+            "lowhigh": priceArray[idxLow] + ' | ' + priceArray[idxHigh],
+            "time": "$longTime",
+          };
+          // console.log("Commodities Price Array");
+          // console.dir(priceArray);
+          // console.dir(priceMap);
+          resolve("done!");
+        }
+        runCommdAsyncFunction()
+      }
+
+      if (assetType != 'Gold' && assetType != 'Silver' && assetType != 'CrudeOil' && assetType != 'USD') {
+        var URL: string;
+
+        switch (assetType) {
+          case 'BitCoin': {
+            URL = 'https://finance.yahoo.com/quote/BTC-USD/';
+            productPriceSectionRE = new RegExp(
+              /Bitcoin USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
+              'i'
+            );
+            break;
+          }
+          case 'Eth': {
+            URL = 'https://finance.yahoo.com/quote/ETH-USD/';
+            productPriceSectionRE = new RegExp(
+              /Ethereum USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
+              'i'
+            );
+            break;
+          }
+          case 'Ada': {
+            URL = 'https://finance.yahoo.com/quote/ADA-USD/';
+            productPriceSectionRE = new RegExp(
+              /Cardano USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
+              'i'
+            );
+            break;
+          }
+          case 'Dot': {
+            URL = 'https://finance.yahoo.com/quote/DOT1-USD/';
+            productPriceSectionRE = new RegExp(
+              /Polkadot USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
+              'i'
+            );
+            break;
+          }
+          case 'Lnk': {
+            URL = 'https://finance.yahoo.com/quote/LINK-USD/';
+            productPriceSectionRE = new RegExp(
+              /Chainlink USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
+              'i'
+            );
+            break;
+          }
+        }
+
+        async function runCryptoAsyncFunction() {
+          await fetch(URL).then(function (response) {
+            // The API call was successful!
+            return response.text();
+          }).then(function (html) {
+            // This is the HTML from our response as a text string
+            //console.log(html);
+            priceSection = productPriceSectionRE.exec(html)[0];
+            priceArray = priceSection.match(actualPriceRE);
+            console.log(priceArray);
+          }).catch(function (err) {
+            // There was an error
+            // console.warn('Cannot fetch URL - ' + URL, err);
+          });
+          let pal = priceArray.length;
+
+          priceMap = {
+            "price": priceArray[pal-115],
+            "change": priceArray[pal-113] + ' | ' + priceArray[pal-112],
+            "lowhigh": priceArray[pal-12] + ' | ' + priceArray[pal-11],
+            "time": "$longTime",
+          };
+          // console.log("Crypto Price Array");
+          // console.dir(priceArray);
+          // console.dir(priceMap);
+          resolve("done!");
+        }
+        runCryptoAsyncFunction()
+      }
+
     });
 
     let result = await promise; // wait until the promise resolves (*)

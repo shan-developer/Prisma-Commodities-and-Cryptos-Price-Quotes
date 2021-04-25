@@ -38,13 +38,90 @@ export class AppController {
       },
     })
 
-    console.log('updateAssetQuotes executed.')
+    result = await this.prisma.getAssetQuotes('CrudeOil');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'CrudeOil',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    result = await this.prisma.getAssetQuotes('USD');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'USD',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    result = await this.prisma.getAssetQuotes('BitCoin');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'BitCoin',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    result = await this.prisma.getAssetQuotes('Eth');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'Eth',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    result = await this.prisma.getAssetQuotes('Ada');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'Ada',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    result = await this.prisma.getAssetQuotes('Dot');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'Dot',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    result = await this.prisma.getAssetQuotes('Lnk');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'Lnk',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    // console.log('updateAssetQuotes executed.')
     return result;
   }
 
   @Get('getpq/:assetType')
   async getPMQuotes(@Param('assetType') assetType: string) {
     let result = await this.prisma.pmquotes.findUnique({ where: { pmtype: assetType }, select: { quotejson: true } });
+    return result.quotejson;
+  }
+
+  @Get('testpq/:assetType')
+  async testCommdQuotes(@Param('assetType') assetType: string) {
+    var result: any;
+    result = await this.prisma.getAssetQuotes(assetType);
     return result.quotejson;
   }
 
@@ -56,7 +133,7 @@ export class AppController {
         // The API call was successful!
       return response.text();
     }).then(function (html) {
-      console.log(html)
+      // console.log(html)
     }).catch(function (err) {
       // There was an error
       console.warn('Cannot invoke updateQuotes', err);
