@@ -114,7 +114,12 @@ export class AppController {
 
   @Get('getpq/:assetType')
   async getPMQuotes(@Param('assetType') assetType: string) {
-    let result = await this.prisma.pmquotes.findUnique({ where: { pmtype: assetType }, select: { quotejson: true } });
+    var result: any;
+    if (assetType == 'Gold' || assetType == 'Silver') {
+      result = await this.prisma.pmquotes.findUnique({ where: { pmtype: assetType }, select: { quotejson: true } });
+    } else {
+      result = await this.prisma.commoditiesothers.findUnique({ where: { commoditytype: assetType }, select: { quotejson: true } });
+    }
     return result.quotejson;
   }
 
@@ -129,8 +134,8 @@ export class AppController {
   // @Cron('45 * * * * *')
   handleCron() {
     fetch('https://prisma-quotes.herokuapp.com/updateQuotes').then(function (response) {
-    // fetch('http://localhost:3000/updateQuotes').then(function (response) {
-        // The API call was successful!
+      // fetch('http://localhost:3000/updateQuotes').then(function (response) {
+      // The API call was successful!
       return response.text();
     }).then(function (html) {
       // console.log(html)
