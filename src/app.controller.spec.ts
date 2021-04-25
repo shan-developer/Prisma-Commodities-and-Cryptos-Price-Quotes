@@ -15,8 +15,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.updateAssetQuotes()).toBe('Hello World!');
+    it('should return "No Route."', () => {
+      expect(appController.returnNoRoute()).toBe('No Route.');
     });
   });
 });
