@@ -70,7 +70,7 @@ export class PrismaService extends PrismaClient
               //console.log(html);
               priceSection = productPriceSectionRE.exec(html)[0];
               priceArray = priceSection.match(actualPriceRE);
-              console.log(priceArray);
+              // console.log(priceArray);
             }).catch(function (err) {
               // There was an error
               console.warn('Cannot fetch URL - kitco.com', err);
@@ -84,10 +84,10 @@ export class PrismaService extends PrismaClient
               //console.log(html);
               hgPriceSection = yrHighPriceSectionRE.exec(html)[0];
               year1HighPrice = hgPriceSection.match(actualPriceRE)[0];
-              console.log(year1HighPrice);
+              // console.log(year1HighPrice);
               lwPriceSection = yrLowPriceSectionRE.exec(html)[0];
               year1LowPrice = lwPriceSection.match(actualPriceRE)[0];
-              console.log(year1LowPrice);
+              // console.log(year1LowPrice);
 
             }).catch(function (err) {
               // There was an error
@@ -135,7 +135,7 @@ export class PrismaService extends PrismaClient
               //console.log(html);
               priceSection = productPriceSectionRE.exec(html)[0];
               priceArray = priceSection.match(actualPriceRE);
-              console.log(priceArray);
+              // console.log(priceArray);
             }).catch(function (err) {
               // There was an error
               console.warn('Cannot fetch URL - kitcosilver.com', err);
@@ -149,10 +149,10 @@ export class PrismaService extends PrismaClient
               //console.log(html);
               hgPriceSection = yrHighPriceSectionRE.exec(html)[0];
               year1HighPrice = hgPriceSection.match(actualPriceRE)[0];
-              console.log(year1HighPrice);
+              // console.log(year1HighPrice);
               lwPriceSection = yrLowPriceSectionRE.exec(html)[0];
               year1LowPrice = lwPriceSection.match(actualPriceRE)[0];
-              console.log(year1LowPrice);
+              // console.log(year1LowPrice);
 
             }).catch(function (err) {
               // There was an error
@@ -173,7 +173,7 @@ export class PrismaService extends PrismaClient
         runSilverAsyncFunction();
       }
 
-      if (assetType == 'CrudeOil' || 'USD') {
+      if (assetType == 'CrudeOil' || assetType == 'USD') {
         productPriceSectionRE = new RegExp(
           /<div id="quotes_summary_current_data"[\s\S]+?<div class="float_lang_base_2/,
           'i'
@@ -205,7 +205,7 @@ export class PrismaService extends PrismaClient
             //console.log(html);
             priceSection = productPriceSectionRE.exec(html)[0];
             priceArray = priceSection.match(actualPriceRE);
-            console.log(priceArray);
+            // console.log(priceArray);
           }).catch(function (err) {
             // There was an error
             console.warn('Cannot fetch URL - $URL', err);
@@ -280,7 +280,7 @@ export class PrismaService extends PrismaClient
             //console.log(html);
             priceSection = productPriceSectionRE.exec(html)[0];
             priceArray = priceSection.match(actualPriceRE);
-            console.log(priceArray);
+            // console.log(priceArray);
           }).catch(function (err) {
             // There was an error
             // console.warn('Cannot fetch URL - ' + URL, err);
