@@ -120,14 +120,14 @@ export class AppController {
     } else {
       result = await this.prisma.commoditiesothers.findUnique({ where: { commoditytype: assetType }, select: { quotejson: true } });
     }
-    return result.quotejson;
+    return result;
   }
 
   @Get('testpq/:assetType')
   async testCommdQuotes(@Param('assetType') assetType: string) {
     var result: any;
     result = await this.prisma.getAssetQuotes(assetType);
-    return result.quotejson;
+    return result;
   }
 
   @Cron('0 */15 * * * *')

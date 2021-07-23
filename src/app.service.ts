@@ -51,12 +51,12 @@ export class PrismaService extends PrismaClient
         );
 
         yrHighPriceSectionRE = new RegExp(
-          /Year High\"[\s\S]+?<\/span><\/td>/,
+          /Year high<\/span>[\s\S]+?<\/p>/,
           'i'
         );
 
         yrLowPriceSectionRE = new RegExp(
-          /Year Low\"[\s\S]+?<\/span><\/td>/,
+          /Year low<\/span>[\s\S]+?<\/p>/,
           'i',
         );
 
@@ -81,13 +81,18 @@ export class PrismaService extends PrismaClient
               return response.text();
             }).then(function (html) {
               // This is the HTML from our response as a text string
+              //console.log("=========HTML============");
               //console.log(html);
+              //console.log("=========REGEX matching============");
               hgPriceSection = yrHighPriceSectionRE.exec(html)[0];
+              //console.log("=========Value matching============");
               year1HighPrice = hgPriceSection.match(actualPriceRE)[0];
-              // console.log(year1HighPrice);
+              //console.log("==========year1HighPrice===========");
+              //console.log(year1HighPrice);
               lwPriceSection = yrLowPriceSectionRE.exec(html)[0];
               year1LowPrice = lwPriceSection.match(actualPriceRE)[0];
-              // console.log(year1LowPrice);
+              //console.log("=========year1LowPrice============");
+              //console.log(year1LowPrice);
 
             }).catch(function (err) {
               // There was an error
@@ -116,12 +121,12 @@ export class PrismaService extends PrismaClient
         );
 
         yrHighPriceSectionRE = new RegExp(
-          /Year High\"[\s\S]+?<\/span><\/td>/,
+          /Year high<\/span>[\s\S]+?<\/p>/,
           'i'
         );
 
         yrLowPriceSectionRE = new RegExp(
-          /Year Low\"[\s\S]+?<\/span><\/td>/,
+          /Year low<\/span>[\s\S]+?<\/p>/,
           'i',
         );
 
@@ -314,7 +319,6 @@ export class PrismaService extends PrismaClient
   async onModuleDestroy() {
     this.$disconnect;
   }
-
 
 }
 
