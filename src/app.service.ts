@@ -274,6 +274,22 @@ export class PrismaService extends PrismaClient
             );
             break;
           }
+          case 'Vet': {
+            URL = 'https://finance.yahoo.com/quote/VET-USD/';
+            productPriceSectionRE = new RegExp(
+              /VeChain USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
+              'i'
+            );
+            break;
+          }
+          case 'Sol': {
+            URL = 'https://finance.yahoo.com/quote/SOL1-USD/';
+            productPriceSectionRE = new RegExp(
+              /Solana USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
+              'i'
+            );
+            break;
+          }
         }
 
         async function runCryptoAsyncFunction() {

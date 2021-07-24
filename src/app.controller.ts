@@ -27,7 +27,6 @@ export class AppController {
         quotejson: result,
       },
     })
-
     result = await this.prisma.getAssetQuotes('Silver');
     await this.prisma.pmquotes.update({
       where: {
@@ -102,6 +101,26 @@ export class AppController {
     await this.prisma.commoditiesothers.update({
       where: {
         commoditytype: 'Lnk',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    result = await this.prisma.getAssetQuotes('Vet');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'Vet',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    result = await this.prisma.getAssetQuotes('Sol');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'Sol',
       },
       data: {
         quotejson: result,
