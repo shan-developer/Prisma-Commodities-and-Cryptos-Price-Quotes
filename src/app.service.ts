@@ -179,15 +179,15 @@ export class PrismaService extends PrismaClient
       }
 
       if (assetType == 'CrudeOil' || assetType == 'USD') {
-        productPriceSectionRE = new RegExp(
-          /<div id="quotes_summary_current_data"[\s\S]+?<div class="float_lang_base_2/,
-          'i'
-        );
         var URL: string;
         var idxLow, idxHigh: number;
 
         switch (assetType) {
           case 'CrudeOil': {
+            productPriceSectionRE = new RegExp(
+              /<div id="quotes_summary_current_data"[\s\S]+?<div class="float_lang_base_2/,
+              'i'
+            );
             URL = 'https://www.investing.com/commodities/crude-oil';
             idxLow = 5;
             idxHigh = 6;
@@ -195,6 +195,10 @@ export class PrismaService extends PrismaClient
             break;
           }
           case 'USD': {
+            productPriceSectionRE = new RegExp(
+              /data-test="instrument-price-last"[\s\S]+?data-test="instrument-bottom-bar-view"/,
+              'i'
+            );
             URL = 'https://www.investing.com/indices/usdollar';
             idxLow = 4;
             idxHigh = 5;
@@ -210,7 +214,7 @@ export class PrismaService extends PrismaClient
             //console.log(html);
             priceSection = productPriceSectionRE.exec(html)[0];
             priceArray = priceSection.match(actualPriceRE);
-            // console.log(priceArray);
+            //console.log(JSON.stringify(priceArray));
           }).catch(function (err) {
             // There was an error
             console.warn('Cannot fetch URL - $URL', err);
