@@ -127,6 +127,26 @@ export class AppController {
       },
     })
 
+    result = await this.prisma.getAssetQuotes('Ava');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'Ava',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
+    result = await this.prisma.getAssetQuotes('Ura');
+    await this.prisma.commoditiesothers.update({
+      where: {
+        commoditytype: 'Ura',
+      },
+      data: {
+        quotejson: result,
+      },
+    })
+
     // console.log('updateAssetQuotes executed.')
     return result;
   }

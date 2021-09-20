@@ -294,6 +294,22 @@ export class PrismaService extends PrismaClient
             );
             break;
           }
+          case 'Ava': {
+            URL = 'https://finance.yahoo.com/quote/AVAX-USD/';
+            productPriceSectionRE = new RegExp(
+              /Avalanche USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
+              'i'
+            );
+            break;
+          }
+          case 'Ura': {
+            URL = 'https://finance.yahoo.com/quote/URA/';
+            productPriceSectionRE = new RegExp(
+              /Global X Uranium ETF[\s\S]+?Avg\. Volume\<\/span\>\<\/td\>/,
+              'i'
+            );
+            break;
+          }
         }
 
         async function runCryptoAsyncFunction() {
@@ -311,15 +327,24 @@ export class PrismaService extends PrismaClient
             // console.warn('Cannot fetch URL - ' + URL, err);
           });
           let pal = priceArray.length;
-
-          priceMap = {
-            "price": priceArray[pal-115],
-            "change": priceArray[pal-113] + ' | ' + priceArray[pal-112],
-            "lowhigh": priceArray[pal-12] + ' | ' + priceArray[pal-11],
-            "time": "$longTime",
-          };
+          if (assetType != 'Ura') {
+            priceMap = {
+              "price": priceArray[pal - 115],
+              "change": priceArray[pal - 113] + ' | ' + priceArray[pal - 112],
+              "lowhigh": priceArray[pal - 12] + ' | ' + priceArray[pal - 11],
+              "time": "$longTime",
+            };
+          } else {
+            priceMap = {
+              "price": priceArray[pal - 115],
+              "change": priceArray[pal - 113] + ' | ' + priceArray[pal - 112],
+              "lowhigh": priceArray[pal - 5] + ' | ' + priceArray[pal - 4],
+              "time": "$longTime",
+            };
+          }
           // console.log("Crypto Price Array");
-          // console.dir(priceArray);
+          // console.dir(priceArray.slice(-20, -1));
+          // console.dir(priceArray.slice(-120, -99));
           // console.dir(priceMap);
           resolve("done!");
         }
