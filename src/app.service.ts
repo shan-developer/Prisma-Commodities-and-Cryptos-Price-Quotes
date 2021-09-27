@@ -236,11 +236,9 @@ export class PrismaService extends PrismaClient
               "time": "$longTime",
             };
           } else {
-
             // if (assetType == 'USD') {
             //   console.table(priceArray);
             // }
-
             priceMap = {
               "price": priceArray[idxPrice],
               "change": priceArray[idxChgPrice] + ' | ' + priceArray[idxChgPercent],
