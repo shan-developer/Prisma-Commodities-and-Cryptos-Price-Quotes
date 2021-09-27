@@ -180,28 +180,34 @@ export class PrismaService extends PrismaClient
 
       if (assetType == 'CrudeOil' || assetType == 'USD') {
         var URL: string;
-        var idxLow, idxHigh: number;
+        var idxPrice, idxChgPrice, idxChgPercent, idxLow, idxHigh: number;
 
         switch (assetType) {
           case 'CrudeOil': {
             productPriceSectionRE = new RegExp(
-              /<div id="quotes_summary_current_data"[\s\S]+?<div class="float_lang_base_2/,
+              /Crude Oil WTI Futures[\s\S]+?Type<!-- -->:</,
               'i'
             );
             URL = 'https://www.investing.com/commodities/crude-oil';
-            idxLow = 5;
-            idxHigh = 6;
+            idxPrice = 167;
+            idxChgPrice = 168;
+            idxChgPercent = 169;
+            idxLow = 302;
+            idxHigh = 303;
 
             break;
           }
           case 'USD': {
             productPriceSectionRE = new RegExp(
-              /data-test="instrument-price-last"[\s\S]+?data-test="instrument-bottom-bar-view"/,
+              /US Dollar Index[\s\S]+?Type<!-- -->:</,
               'i'
             );
             URL = 'https://www.investing.com/indices/usdollar';
-            idxLow = 4;
-            idxHigh = 5;
+            idxPrice = 3910;
+            idxChgPrice = 3911;
+            idxChgPercent = 3912;
+            idxLow = 4045;
+            idxHigh = 4046;
             break;
           }
         }
@@ -211,21 +217,37 @@ export class PrismaService extends PrismaClient
             return response.text();
           }).then(function (html) {
             // This is the HTML from our response as a text string
-            //console.log(html);
-            priceSection = productPriceSectionRE.exec(html)[0];
-            priceArray = priceSection.match(actualPriceRE);
-            //console.log(JSON.stringify(priceArray));
+            if (html == null || html == undefined) {
+              console.error('Error fetching', URL);
+            } else {
+              priceSection = productPriceSectionRE.exec(html)[0];
+              priceArray = priceSection.match(actualPriceRE);
+              // console.log(priceArray);
+            }
           }).catch(function (err) {
             // There was an error
-            console.warn('Cannot fetch URL - $URL', err);
+            console.warn('Cannot parse data at URL: ' + URL + ". Error", err);
           });
+          if (priceSection == null) {
+            priceMap = {
+              "price": '0',
+              "change": '0' + ' | ' + '0',
+              "lowhigh": '0' + ' | ' + '0',
+              "time": "$longTime",
+            };
+          } else {
 
-          priceMap = {
-            "price": priceArray[0],
-            "change": priceArray[1] + ' | ' + priceArray[2],
-            "lowhigh": priceArray[idxLow] + ' | ' + priceArray[idxHigh],
-            "time": "$longTime",
-          };
+            // if (assetType == 'USD') {
+            //   console.table(priceArray);
+            // }
+
+            priceMap = {
+              "price": priceArray[idxPrice],
+              "change": priceArray[idxChgPrice] + ' | ' + priceArray[idxChgPercent],
+              "lowhigh": priceArray[idxLow] + ' | ' + priceArray[idxHigh],
+              "time": "$longTime",
+            };
+          }
           // console.log("Commodities Price Array");
           // console.dir(priceArray);
           // console.dir(priceMap);
@@ -318,29 +340,41 @@ export class PrismaService extends PrismaClient
             return response.text();
           }).then(function (html) {
             // This is the HTML from our response as a text string
-            //console.log(html);
-            priceSection = productPriceSectionRE.exec(html)[0];
-            priceArray = priceSection.match(actualPriceRE);
-            // console.log(priceArray);
+            if (html == null || html == undefined) {
+              console.error('Error fetching', URL);
+            } else {
+              priceSection = productPriceSectionRE.exec(html)[0];
+              priceArray = priceSection.match(actualPriceRE);
+              // console.log(priceArray);
+            }
           }).catch(function (err) {
             // There was an error
-            // console.warn('Cannot fetch URL - ' + URL, err);
+            console.warn('Cannot parse data at URL: ' + URL + ". Error", err);
           });
-          let pal = priceArray.length;
-          if (assetType != 'Ura') {
+          if (priceSection == null) {
             priceMap = {
-              "price": priceArray[pal - 115],
-              "change": priceArray[pal - 113] + ' | ' + priceArray[pal - 112],
-              "lowhigh": priceArray[pal - 12] + ' | ' + priceArray[pal - 11],
+              "price": '0',
+              "change": '0' + ' | ' + '0',
+              "lowhigh": '0' + ' | ' + '0',
               "time": "$longTime",
             };
           } else {
-            priceMap = {
-              "price": priceArray[pal - 115],
-              "change": priceArray[pal - 113] + ' | ' + priceArray[pal - 112],
-              "lowhigh": priceArray[pal - 5] + ' | ' + priceArray[pal - 4],
-              "time": "$longTime",
-            };
+            let pal = priceArray.length;
+            if (assetType != 'Ura') {
+              priceMap = {
+                "price": priceArray[pal - 115],
+                "change": priceArray[pal - 113] + ' | ' + priceArray[pal - 112],
+                "lowhigh": priceArray[pal - 12] + ' | ' + priceArray[pal - 11],
+                "time": "$longTime",
+              };
+            } else {
+              priceMap = {
+                "price": priceArray[pal - 115],
+                "change": priceArray[pal - 113] + ' | ' + priceArray[pal - 112],
+                "lowhigh": priceArray[pal - 5] + ' | ' + priceArray[pal - 4],
+                "time": "$longTime",
+              };
+            }
           }
           // console.log("Crypto Price Array");
           // console.dir(priceArray.slice(-20, -1));
