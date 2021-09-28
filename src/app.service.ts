@@ -185,29 +185,31 @@ export class PrismaService extends PrismaClient
         switch (assetType) {
           case 'CrudeOil': {
             productPriceSectionRE = new RegExp(
-              /Crude Oil WTI Futures[\s\S]+?Type<!-- -->:</,
+              /Crude Oil[\s\S]+?Volume</,
               'i'
             );
-            URL = 'https://www.investing.com/commodities/crude-oil';
-            idxPrice = 167;
-            idxChgPrice = 168;
-            idxChgPercent = 169;
-            idxLow = 302;
-            idxHigh = 303;
+            // URL = 'https://www.investing.com/commodities/crude-oil';
+            URL = 'https://finance.yahoo.com/quote/CL=F';
+            idxPrice = 380;
+            idxChgPrice = 382;
+            idxChgPercent = 384;
+            idxLow = 639;
+            idxHigh = 640;
 
             break;
           }
           case 'USD': {
             productPriceSectionRE = new RegExp(
-              /US Dollar Index[\s\S]+?Type<!-- -->:</,
+              /US Dollar[\s\S]+?Volume</,
               'i'
             );
-            URL = 'https://www.investing.com/indices/usdollar';
-            idxPrice = 3910;
-            idxChgPrice = 3911;
-            idxChgPercent = 3912;
-            idxLow = 4045;
-            idxHigh = 4046;
+            // URL = 'https://www.investing.com/indices/usdollar';
+            URL = 'https://finance.yahoo.com/quote/DX=F';            
+            idxPrice = 380;
+            idxChgPrice = 382;
+            idxChgPercent = 384;
+            idxLow = 639;
+            idxHigh = 640;
             break;
           }
         }
@@ -237,9 +239,9 @@ export class PrismaService extends PrismaClient
             };
           } else {
 
-            // if (assetType == 'USD') {
-            //   console.table(priceArray);
-            // }
+            if (assetType == 'USD') {
+              console.table(priceArray);
+            }
             
             priceMap = {
               "price": priceArray[idxPrice],
