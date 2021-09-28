@@ -205,9 +205,9 @@ export class PrismaService extends PrismaClient
             );
             // URL = 'https://www.investing.com/indices/usdollar';
             URL = 'https://finance.yahoo.com/quote/DX=F';            
-            idxPrice = 380;
-            idxChgPrice = 382;
-            idxChgPercent = 384;
+            idxPrice = 532;
+            idxChgPrice = 534;
+            idxChgPercent = 535;
             idxLow = 639;
             idxHigh = 640;
             break;
@@ -239,9 +239,9 @@ export class PrismaService extends PrismaClient
             };
           } else {
 
-            if (assetType == 'USD') {
-              console.table(priceArray);
-            }
+            // if (assetType == 'USD') {
+            //   console.table(priceArray);
+            // }
             
             priceMap = {
               "price": priceArray[idxPrice],
