@@ -185,35 +185,27 @@ export class PrismaService extends PrismaClient
         switch (assetType) {
           case 'CrudeOil': {
             productPriceSectionRE = new RegExp(
-              /Crude Oil[\s\S]+?Volume</,
+              /Crude Oil[\s\S]+?>As of/,
               'i'
             );
             // URL = 'https://www.investing.com/commodities/crude-oil';
             URL = 'https://finance.yahoo.com/quote/CL=F';
-            idxPrice = 380;
-            idxChgPrice = 382;
-            idxChgPercent = 384;
-            idxLow = 639;
-            idxHigh = 640;
-
             break;
           }
           case 'USD': {
             productPriceSectionRE = new RegExp(
-              /US Dollar[\s\S]+?Volume</,
+              /US Dollar[\s\S]+?>As of/,
               'i'
             );
             // URL = 'https://www.investing.com/indices/usdollar';
-            URL = 'https://finance.yahoo.com/quote/DX=F';            
-            idxPrice = 532;
-            idxChgPrice = 534;
-            idxChgPercent = 535;
-            idxLow = 639;
-            idxHigh = 640;
+            URL = 'https://finance.yahoo.com/quote/DX=F';
             break;
           }
         }
         async function runCommdAsyncFunction() {
+          let resHTML: String;
+          let combPriceArray = [];
+
           await fetch(URL).then(function (response) {
             // The API call was successful!
             return response.text();
@@ -222,7 +214,8 @@ export class PrismaService extends PrismaClient
             if (html == null || html == undefined) {
               console.error('Error fetching', URL);
             } else {
-              priceSection = productPriceSectionRE.exec(html)[0];
+              resHTML = html;
+              priceSection = productPriceSectionRE.exec(resHTML)[0];
               priceArray = priceSection.match(actualPriceRE);
               // console.log(priceArray);
             }
@@ -242,18 +235,41 @@ export class PrismaService extends PrismaClient
             // if (assetType == 'USD') {
             //   console.table(priceArray);
             // }
-            
+
+            combPriceArray.push(priceArray[priceArray.length - 4]); //price
+            combPriceArray.push(priceArray[priceArray.length - 2]); //price changed
+            combPriceArray.push(priceArray[priceArray.length - 1]); //price changed % percent
+
+            productPriceSectionRE = new RegExp(
+              /s Range<[\s\S]+?Volume</,
+              'i'
+            );
+
+            priceSection = productPriceSectionRE.exec(resHTML)[0];
+            priceArray = priceSection.match(actualPriceRE);
+
+            // if (assetType == 'USD') {
+            //   console.table(priceArray);
+            // }
+
+            combPriceArray.push(priceArray[priceArray.length - 2]); //low price
+            combPriceArray.push(priceArray[priceArray.length - 1]); //high price
+
             priceMap = {
-              "price": priceArray[idxPrice],
-              "change": priceArray[idxChgPrice] + ' | ' + priceArray[idxChgPercent],
-              "lowhigh": priceArray[idxLow] + ' | ' + priceArray[idxHigh],
+              "price": combPriceArray[0],
+              "change": combPriceArray[1] + ' | ' + combPriceArray[2],
+              "lowhigh": combPriceArray[3] + ' | ' + combPriceArray[4],
               "time": "$longTime",
             };
+
+            // if (assetType == 'USD') {
+            //   console.table(priceMap);
+            // }
+            
           }
-          // console.log("Commodities Price Array");
-          // console.dir(priceArray);
-          // console.dir(priceMap);
+          //resolve Promise
           resolve("done!");
+
         }
         runCommdAsyncFunction()
       }
