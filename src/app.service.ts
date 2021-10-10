@@ -185,7 +185,7 @@ export class PrismaService extends PrismaClient
         switch (assetType) {
           case 'CrudeOil': {
             productPriceSectionRE = new RegExp(
-              /Crude Oil[\s\S]+?>At close\:/,
+              /Currency in USD[\s\S]+?quote-market-notice/,
               'i'
             );
             // URL = 'https://www.investing.com/commodities/crude-oil';
@@ -194,7 +194,7 @@ export class PrismaService extends PrismaClient
           }
           case 'USD': {
             productPriceSectionRE = new RegExp(
-              /US Dollar[\s\S]+?At close\:/,
+              /Currency in USD[\s\S]+?quote-market-notice/,
               'i'
             );
             // URL = 'https://www.investing.com/indices/usdollar';
@@ -232,7 +232,8 @@ export class PrismaService extends PrismaClient
             };
           } else {
 
-            // if (assetType == 'USD') {
+            // -----DEBUG-----
+            // if (assetType == 'CrudeOil') {
             //   console.table(priceArray);
             // }
 
@@ -248,7 +249,8 @@ export class PrismaService extends PrismaClient
             priceSection = productPriceSectionRE.exec(resHTML)[0];
             priceArray = priceSection.match(actualPriceRE);
 
-            // if (assetType == 'USD') {
+            // -----DEBUG-----
+            // if (assetType == 'CrudeOil') {
             //   console.table(priceArray);
             // }
 
@@ -262,7 +264,7 @@ export class PrismaService extends PrismaClient
               "time": "$longTime",
             };
 
-            // if (assetType == 'USD') {
+            // if (assetType == 'CrudeOil') {
             //   console.table(priceMap);
             // }
             
