@@ -185,7 +185,7 @@ export class PrismaService extends PrismaClient
         switch (assetType) {
           case 'CrudeOil': {
             productPriceSectionRE = new RegExp(
-              /Crude Oil[\s\S]+?>As of/,
+              /Crude Oil[\s\S]+?>At close\:/,
               'i'
             );
             // URL = 'https://www.investing.com/commodities/crude-oil';
@@ -194,7 +194,7 @@ export class PrismaService extends PrismaClient
           }
           case 'USD': {
             productPriceSectionRE = new RegExp(
-              /US Dollar[\s\S]+?>As of/,
+              /US Dollar[\s\S]+?At close\:/,
               'i'
             );
             // URL = 'https://www.investing.com/indices/usdollar';
