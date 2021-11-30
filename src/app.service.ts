@@ -188,7 +188,7 @@ export class PrismaService extends PrismaClient
               /Currency in USD[\s\S]+?quote-market-notice/,
               'i'
             );
-            // URL = 'https://www.investing.com/commodities/crude-oil';
+            // URL = '  ';
             URL = 'https://finance.yahoo.com/quote/CL=F';
             break;
           }
@@ -237,8 +237,8 @@ export class PrismaService extends PrismaClient
             //   console.table(priceArray);
             // }
 
-            combPriceArray.push(priceArray[priceArray.length - 4]); //price
-            combPriceArray.push(priceArray[priceArray.length - 2]); //price changed
+            combPriceArray.push(priceArray[priceArray.length - 5]); //price
+            combPriceArray.push(priceArray[priceArray.length - 3]); //price changed
             combPriceArray.push(priceArray[priceArray.length - 1]); //price changed % percent
 
             productPriceSectionRE = new RegExp(
@@ -396,26 +396,26 @@ export class PrismaService extends PrismaClient
             };
           } else {
             let pal = priceArray.length;
-            if (assetType != 'Ura') {
+            if (assetType != 'Ura') { //Cryptos
               priceMap = {
-                "price": priceArray[pal - 115],
-                "change": priceArray[pal - 113] + ' | ' + priceArray[pal - 112],
-                "lowhigh": priceArray[pal - 12] + ' | ' + priceArray[pal - 11],
+                "price": priceArray[pal - 108],
+                "change": priceArray[pal - 107] + ' | ' + priceArray[pal - 104],
+                "lowhigh": priceArray[pal - 6] + ' | ' + priceArray[pal - 5],
                 "time": "$longTime",
               };
-            } else {
+            } else { //Uranium
               priceMap = {
-                "price": priceArray[pal - 115],
-                "change": priceArray[pal - 113] + ' | ' + priceArray[pal - 112],
-                "lowhigh": priceArray[pal - 5] + ' | ' + priceArray[pal - 4],
+                "price": priceArray[pal - 114],
+                "change": priceArray[pal - 112] + ' | ' + priceArray[pal - 110],
+                "lowhigh": priceArray[pal - 4] + ' | ' + priceArray[pal - 3],
                 "time": "$longTime",
               };
             }
           }
-          // console.log("Crypto Price Array");
-          // console.dir(priceArray.slice(-20, -1));
-          // console.dir(priceArray.slice(-120, -99));
-          // console.dir(priceMap);
+            // console.log("Crypto Price Array - Length = " + priceArray.length);
+            // console.dir(priceArray.slice(-20, -1)); //Day's Range
+            // console.dir(priceArray.slice(-120, -99)); //Price and changes
+            // console.dir(priceMap);
           resolve("done!");
         }
         runCryptoAsyncFunction()
