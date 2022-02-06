@@ -74,8 +74,9 @@ export class PrismaService extends PrismaClient
             }).catch(function (err) {
               // There was an error
               console.warn('Cannot fetch URL - kitco.com', err);
-            }),
+            })
 
+/*
             fetch('https://www.bullionbypost.co.uk/gold-price/year/ounces/USD/').then(function (response) {
               // The API call was successful!
               return response.text();
@@ -98,14 +99,17 @@ export class PrismaService extends PrismaClient
               // There was an error
               console.warn('Cannot fetch URL - bullionbypost.co.uk', err);
             })
-          ]);
+          */
+                   ]);
+
           priceMap = {
             "bidask": priceArray[0] + ' | ' + priceArray[1],
             "lowhigh": priceArray[2] + ' | ' + priceArray[3],
             "change": priceArray[4] + ' | ' + priceArray[5],
             "1month": priceArray[6] + ' | ' + priceArray[7],
             "1year": priceArray[8] + ' | ' + priceArray[9],
-            "yearlowhigh": year1LowPrice + ' | ' + year1HighPrice,
+            //"yearlowhigh": year1LowPrice + ' | ' + year1HighPrice,
+            "yearlowhigh": '0,00' + ' | ' + '0.00',
             "time": "$longTime",
           };
           resolve("done!");
@@ -144,7 +148,8 @@ export class PrismaService extends PrismaClient
             }).catch(function (err) {
               // There was an error
               console.warn('Cannot fetch URL - kitcosilver.com', err);
-            }),
+            })
+            /*
 
             fetch('https://www.bullionbypost.co.uk/silver-price/year/ounces/USD/').then(function (response) {
               // The API call was successful!
@@ -163,6 +168,7 @@ export class PrismaService extends PrismaClient
               // There was an error
               console.warn('Cannot fetch URL - bullionbypost.co.uk', err);
             })
+            */
           ]);
           priceMap = {
             "bidask": priceArray[0] + ' | ' + priceArray[1],
@@ -170,7 +176,8 @@ export class PrismaService extends PrismaClient
             "change": priceArray[4] + ' | ' + priceArray[5],
             "1month": priceArray[6] + ' | ' + priceArray[7],
             "1year": priceArray[8] + ' | ' + priceArray[9],
-            "yearlowhigh": year1LowPrice + ' | ' + year1HighPrice,
+            //"yearlowhigh": year1LowPrice + ' | ' + year1HighPrice,
+            "yearlowhigh": '0,00' + ' | ' + '0.00',
             "time": "$longTime",
           };
           resolve("done!");
@@ -355,7 +362,7 @@ export class PrismaService extends PrismaClient
           case 'Sus': {
             URL = 'https://finance.yahoo.com/quote/SUSHI-USD/';
             productPriceSectionRE = new RegExp(
-              /Sushi USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
+              /SushiSwap USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
               'i'
             );
             break;

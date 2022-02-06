@@ -146,7 +146,7 @@ export class AppController {
         quotejson: result,
       },
     })
-
+/*
     result = await this.prisma.getAssetQuotes('Sus');
     await this.prisma.commoditiesothers.update({
       where: {
@@ -156,7 +156,7 @@ export class AppController {
         quotejson: result,
       },
     })
-
+*/
     result = await this.prisma.getAssetQuotes('Alg');
     await this.prisma.commoditiesothers.update({
       where: {
