@@ -233,7 +233,7 @@ export class PrismaService extends PrismaClient
           } else {
 
             // -----DEBUG-----
-            // if (assetType == 'CrudeOil') {
+            // if (assetType == 'USD') {
             //   console.table(priceArray);
             // }
 
@@ -250,7 +250,7 @@ export class PrismaService extends PrismaClient
             priceArray = priceSection.match(actualPriceRE);
 
             // -----DEBUG-----
-            // if (assetType == 'CrudeOil') {
+            // if (assetType == 'USD') {
             //   console.table(priceArray);
             // }
 
@@ -264,7 +264,7 @@ export class PrismaService extends PrismaClient
               "time": "$longTime",
             };
 
-            // if (assetType == 'CrudeOil') {
+            // if (assetType == 'USD') {
             //   console.table(priceMap);
             // }
             
@@ -305,7 +305,7 @@ export class PrismaService extends PrismaClient
             break;
           }
           case 'Dot': {
-            URL = 'https://finance.yahoo.com/quote/DOT1-USD/';
+            URL = 'https://finance.yahoo.com/quote/DOT-USD';
             productPriceSectionRE = new RegExp(
               /Polkadot USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
               'i'
@@ -329,7 +329,7 @@ export class PrismaService extends PrismaClient
             break;
           }
           case 'Sol': {
-            URL = 'https://finance.yahoo.com/quote/SOL1-USD/';
+            URL = 'https://finance.yahoo.com/quote/SOL-USD/';
             productPriceSectionRE = new RegExp(
               /Solana USD[\s\S]+?Volume \(24hr\)\<\/span\>\<\/td\>/,
               'i'
