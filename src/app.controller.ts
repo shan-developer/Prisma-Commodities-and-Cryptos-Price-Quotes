@@ -16,7 +16,7 @@ export class AppController {
 
   @Get('updateQuotes')
   async updateAssetQuotes() {
-    //return this.prisma.getAssetQuotes('Gold');
+    //return this.prisma.getAssetQuotes('Gold');//
     var result: any;
     result = await this.prisma.getAssetQuotes('Gold');
     await this.prisma.pmquotes.update({
