@@ -194,6 +194,7 @@ export class AppController {
     fetch('https://prisma-quotes.herokuapp.com/updateQuotes').then(function (response) {
       // fetch('http://localhost:3000/updateQuotes').then(function (response) {
       // The API call was successful!
+      console.info('UPDATE Quotes triggered!');
       return response.text();
     }).then(function (html) {
       // console.log(html)
