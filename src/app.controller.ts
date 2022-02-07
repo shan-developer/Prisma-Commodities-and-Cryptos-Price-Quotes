@@ -188,9 +188,9 @@ export class AppController {
     return result;
   }
 
-  //@Cron('0 */15 * * * *')
+  @Cron('0 */15 * * * *')
   // @Cron('45 * * * * *')
-  /*
+  
   handleCron() {
     fetch('https://prisma-quotes.herokuapp.com/updateQuotes').then(function (response) {
       // fetch('http://localhost:3000/updateQuotes').then(function (response) {
@@ -203,6 +203,6 @@ export class AppController {
       // There was an error
       console.warn('Cannot invoke updateQuotes', err);
     })
-  }*/
+  }
   
 }
