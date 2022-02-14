@@ -25,9 +25,9 @@
 
 ## Description
 
-A [Prisma](https://www.prisma.io/) TypeScript ORM backend which parses data from websites and updates the price for Gold, Silver, Crude Oil, Uranium, US Dollar, Bitcoin, Ethereum, Cardano, Polkadot, Chainlink, Vechain, Solana, Avalanche and Algorand every 15 minutes to a backend PostgresSQL database.
-The JSON data in the table is ready to be digested by [KWGT Kustom Widget Maker](https://play.google.com/store/apps/details?id=org.kustom.widget&hl=en&gl=US) running on Android OS.
-This code can be tweaked to extract prices for other commodities or cryptos easily and can be run for free on [Heroku Dynos](https://www.prisma.io/docs/guides/deployment/deployment-guides/deploying-to-heroku).
+<p>A [Prisma](https://www.prisma.io/) TypeScript ORM backend which parses data from websites and updates the price for Gold, Silver, Crude Oil, Uranium, US Dollar, Bitcoin, Ethereum, Cardano, Polkadot, Chainlink, Vechain, Solana, Avalanche and Algorand every 15 minutes to a backend PostgresSQL database.</p>
+<p>The JSON data in the table is ready to be digested by [KWGT Kustom Widget Maker](https://play.google.com/store/apps/details?id=org.kustom.widget&hl=en&gl=US) running on Android OS.</p>
+<p>This code can be tweaked to extract prices for other commodities or cryptos easily and can be run for free on [Heroku Dynos](https://www.prisma.io/docs/guides/deployment/deployment-guides/deploying-to-heroku).</p>
 
 ## Installation
 
