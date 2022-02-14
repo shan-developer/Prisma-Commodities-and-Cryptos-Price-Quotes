@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://www.prisma.io/" target="blank"><img alt="Prisma Logo" src="https://logowik.com/content/uploads/images/prisma2244.jpg" sizes="(max-width: 600px) 200px, 50vw">>
+  <a href="https://www.prisma.io/" target="blank"><img alt="Prisma Logo" src="https://logowik.com/content/uploads/images/prisma2244.jpg" width="200" height="100">
 </a>
 </p>
 
