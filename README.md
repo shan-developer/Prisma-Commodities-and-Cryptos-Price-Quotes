@@ -1,11 +1,12 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+  <a href="https://www.prisma.io/" target="blank"><img alt="Prisma Logo" src="https://logowik.com/content/uploads/images/prisma2244.jpg" width="400" height="150">
+</a>
 </p>
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+  <p align="center">Next-generation Node.js and TypeScript ORM</p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
@@ -24,7 +25,9 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<p>A <a href="https://www.prisma.io/">Prisma</a> TypeScript ORM backend which parses data from websites and updates the price for Gold, Silver, Crude Oil, Uranium, US Dollar, Bitcoin, Ethereum, Cardano, Polkadot, Chainlink, Vechain, Solana, Avalanche and Algorand every 15 minutes to a backend PostgresSQL database.</p>
+<p>The JSON data in the table is ready to be digested by <a href="https://play.google.com/store/apps/details?id=org.kustom.widget&hl=en&gl=US">KWGT Kustom Widget Maker</a> running on Android OS.</p>
+<p>This code can be tweaked to extract prices for other commodities or cryptos easily and can be run for free on <a href="https://www.prisma.io/docs/guides/deployment/deployment-guides/deploying-to-heroku">Heroku Dynos</a>.</p>
 
 ## Installation
 
@@ -45,29 +48,15 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Shan](https://sg.linkedin.com/in/khim-shan-yap-103213106)
+- Website - [Bitcoin Money](https://bitcoinmoney.network/)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This repository is [MIT licensed](LICENSE).
