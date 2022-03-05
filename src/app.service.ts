@@ -289,7 +289,7 @@ export class PrismaService extends PrismaClient
                   "time": "$longTime",
                 };
               }
-              console.dir(priceMap);
+              // console.dir(priceMap);
               resolve("done!");
             }
           }).catch(function (err) {
