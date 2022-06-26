@@ -29,10 +29,17 @@ export class PrismaService extends PrismaClient
     var actualPriceRE: RegExp;
     var priceSection, hgPriceSection, lwPriceSection, year1HighPrice, year1LowPrice: String;
     var dfSymbol, dfRegularMarketPrice, dfRegularMarketChange, dfRegularMarketChangePercent, dfDaysRange: String;
+    var dfGoldYearHigh, dfGoldYearLow, dfSilverYearHigh, dfSilverYearLow
     var dfArrayRE: RegExp;
     let priceMap: {};
     var priceArray: String[];
-    var arrayCryptoRegEx: string[];
+    var arrayCryptoRegEx, arrayGoldSilverRegEx: string[];
+
+    // RegEx to extract year high and year low for Gold/Silver
+    arrayGoldSilverRegEx = [
+      '<div class="snapshot__data-item snapshot__data-item--small">\\s*(\\S*)\\s*<div class="snapshot__header">52 Week Low<\/div>',
+      '<div class="snapshot__data-item snapshot__data-item--small snapshot__data-item--right">\\s*(\\S*)\\s*<div class="snapshot__header">52 Week High<\/div>'
+    ];
 
     let promise = new Promise((resolve, reject) => {
 
@@ -72,6 +79,46 @@ export class PrismaService extends PrismaClient
             }).catch(function (err) {
               // There was an error
               console.warn('Cannot fetch URL - kitco.com', err);
+            }),
+            fetch('https://markets.businessinsider.com/commodities/gold-price').then(function (response) {
+              // The API call was successful!
+              return response.text();
+            }).then(function (html) {
+              //Loop through selected data fields in HTML
+              arrayGoldSilverRegEx.forEach(function (item, index) {
+                var formattedValue: String;
+                // console.log("elementRegEx : "+ item);
+                dfArrayRE = new RegExp(
+                  item,
+                  'i'
+                );
+                switch (index) {
+                  case 0: { //Gold 52 weeks Low
+                    // console.log(html);
+                    // const extractedValue1 = dfArrayRE.exec(html);
+                    // console.table(extractedValue1);
+                    const extractedValue = dfArrayRE.exec(html)[1];
+                    // console.log("extractedValue :" + extractedValue);
+                    // const decimalIndex = (extractedValue2.indexOf('.') > 0) ? extractedValue2.indexOf('.') : 9; // extract the whole string if there is no decimal in value
+                    // dfGoldYearHigh = parseFloat(extractedValue2.substring(0, decimalIndex + 3)).toLocaleString('en');
+                    dfGoldYearLow = extractedValue
+                    // console.log("dfGoldYearLow :" + dfGoldYearLow);
+                  };
+                    break;
+                  case 1: { //Gold 52 weeks High
+                    const extractedValue = dfArrayRE.exec(html)[1];
+                    // console.log(extractedValue);
+                    // const decimalIndex = (extractedValue.indexOf('.') > 0) ? extractedValue.indexOf('.') : 9; // extract the whole string if there is no decimal in value
+                    // dfGoldYearHigh = parseFloat(extractedValue.substring(0, decimalIndex + 3)).toLocaleString('en');
+                    dfGoldYearHigh = extractedValue
+                    // console.log("dfGoldYearHigh :" + dfGoldYearHigh);
+                  };
+                    break;
+                }
+              });
+            }).catch(function (err) {
+              // There was an error
+              console.warn('Cannot fetch URL - markets.businessinsider.com', err);
             })
           ]);
 
@@ -81,7 +128,7 @@ export class PrismaService extends PrismaClient
             "change": priceArray[4] + ' | ' + priceArray[5],
             "1month": priceArray[6] + ' | ' + priceArray[7],
             "1year": priceArray[8] + ' | ' + priceArray[9],
-            "yearlowhigh": '0,00' + ' | ' + '0.00',
+            "yearlowhigh": dfGoldYearLow + ' | ' + dfGoldYearHigh,
             "time": "$longTime",
           };
           resolve("done!");
@@ -120,6 +167,37 @@ export class PrismaService extends PrismaClient
             }).catch(function (err) {
               // There was an error
               console.warn('Cannot fetch URL - kitcosilver.com', err);
+            }),
+            fetch('https://markets.businessinsider.com/commodities/silver-price').then(function (response) {
+              // The API call was successful!
+              return response.text();
+            }).then(function (html) {
+              //Loop through selected data fields in HTML
+              arrayGoldSilverRegEx.forEach(function (item, index) {
+                var formattedValue: String;
+                // console.log("elementRegEx : "+ item);
+                dfArrayRE = new RegExp(
+                  item,
+                  'i'
+                );
+                switch (index) {
+                  case 0: { //Silver 52 weeks Low
+                    const extractedValue = dfArrayRE.exec(html)[1];
+                    dfSilverYearLow = extractedValue
+                    // console.log("dfSilverYearLow :" + dfSilverYearLow);
+                  };
+                    break;
+                  case 1: { //Silver 52 weeks High
+                    const extractedValue = dfArrayRE.exec(html)[1];
+                    dfSilverYearHigh = extractedValue
+                    // console.log("dfSilverYearHigh :" + dfSilverYearHigh);
+                  };
+                    break;
+                }
+              });
+            }).catch(function (err) {
+              // There was an error
+              console.warn('Cannot fetch URL - markets.businessinsider.com', err);
             })
           ]);
           priceMap = {
@@ -128,7 +206,7 @@ export class PrismaService extends PrismaClient
             "change": priceArray[4] + ' | ' + priceArray[5],
             "1month": priceArray[6] + ' | ' + priceArray[7],
             "1year": priceArray[8] + ' | ' + priceArray[9],
-            "yearlowhigh": '0,00' + ' | ' + '0.00',
+            "yearlowhigh": dfSilverYearLow + ' | ' + dfSilverYearHigh,
             "time": "$longTime",
           };
           resolve("done!");
