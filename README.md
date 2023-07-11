@@ -55,7 +55,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## Stay in touch
 
 - Author - [Shan](https://sg.linkedin.com/in/khim-shan-yap-103213106)
-- Website - [Bitcoin Money](https://bitcoinmoney.network/)
+- Website - [Bitcoin Money](https://www.bitcoinmoney.network/)
 
 ## License
 
